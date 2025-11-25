@@ -68,12 +68,15 @@ async function renderAdminList() {
   adminList.innerHTML = "";
 
   for (const key in data) {
-    const n = data[key];
-    adminList.innerHTML += `
-      <div class="card">
+  const n = data[key];
+  adminList.innerHTML += `
+    <div class="card admin-card">
+      <div class="news-content">
         <h4>${n.title}</h4>
-        <button onclick="deleteNews('${key}')">Delete</button>
+        <p>${n.content.substring(0, 100)}...</p> <!-- shows first 100 chars -->
       </div>
+      <button onclick="deleteNews('${key}')">Delete</button>
+    </div>
     `;
   }
 }
