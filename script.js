@@ -8,19 +8,18 @@ async function fetchNews() {
   return data ? Object.values(data) : [];
 }
 
-// Render news list (Home & News page)
+// Render full news list (News page)
 async function renderNewsList() {
   const newsData = await fetchNews();
   let container = document.getElementById("newsList");
   if (!container) return;
   container.innerHTML = "";
 
-  newsData.forEach(n => {
+  newsData.reverse().forEach(n => {
     container.innerHTML += `
       <div class="card">
         <h3>${n.title}</h3>
-        <p>${n.content.substring(0, 60)}...</p>
-        <a href="single.html?id=${n.id}">Read more</a>
+        <p>${n.content}</p>  <!-- Show full content -->
       </div>
     `;
   });
@@ -88,4 +87,22 @@ async function deleteNews(key) {
   });
   alert("News deleted!");
   renderAdminList();
+}
+// Render Home page news (latest 3)
+async function renderHomeNews() {
+  const newsData = await fetchNews();
+  let container = document.getElementById("newsList");
+  if (!container) return;
+  container.innerHTML = "";
+
+  // Show only 3 latest news
+  newsData.slice(-3).reverse().forEach(n => {
+  container.innerHTML += `
+    <div class="card home-card">
+      <h3>${n.title}</h3>
+      <p>${n.content.substring(0, 100)}...</p>
+      <a href="single.html?id=${n.id}">Read more</a>
+    </div>
+    `;
+  });
 }
